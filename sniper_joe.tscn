@@ -1,0 +1,129 @@
+[gd_scene load_steps=11 format=3 uid="uid://lr0wxqxuggsm"]
+
+[ext_resource type="Script" path="res://sniper_joe.gd" id="1_l6hp1"]
+[ext_resource type="Texture2D" uid="uid://drcgtvma8fevi" path="res://enemy_spritesheet.png" id="2_ny6yj"]
+
+[sub_resource type="Animation" id="Animation_vug5f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_oo212"]
+resource_name = "sniper_joe_idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_nhe8b"]
+resource_name = "sniper_joe_jump"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_xfk3c"]
+resource_name = "sniper_joe_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4upr"]
+_data = {
+"RESET": SubResource("Animation_vug5f"),
+"sniper_joe_idle": SubResource("Animation_oo212"),
+"sniper_joe_jump": SubResource("Animation_nhe8b"),
+"sniper_joe_shoot": SubResource("Animation_xfk3c")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2j4xb"]
+size = Vector2(6, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbqw7"]
+size = Vector2(12, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3wyhd"]
+size = Vector2(9, 20)
+
+[node name="sniper_joe" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_l6hp1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_ny6yj")
+hframes = 8
+vframes = 8
+frame = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_d4upr")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_2j4xb")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_pbqw7")
+
+[node name="shield" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield"]
+position = Vector2(9.5, 1)
+shape = SubResource("RectangleShape2D_3wyhd")
+
+[node name="RayCast_Left" type="RayCast2D" parent="."]
+target_position = Vector2(-128, 0)
+
+[node name="RayCast_Right" type="RayCast2D" parent="."]
+target_position = Vector2(128, 0)
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]

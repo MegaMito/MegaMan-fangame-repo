@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://ddyjilupbpped"]
+
+[ext_resource type="Texture2D" uid="uid://dak44qkignq2m" path="res://megaman_spritesheet.png" id="1_q34m6"]
+[ext_resource type="Script" path="res://explosion.gd" id="2_ls4hd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_paw8o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of4t7"]
+atlas = ExtResource("1_q34m6")
+region = Rect2(192, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvk0j"]
+atlas = ExtResource("1_q34m6")
+region = Rect2(160, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrwpo"]
+atlas = ExtResource("1_q34m6")
+region = Rect2(128, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8wlx"]
+atlas = ExtResource("1_q34m6")
+region = Rect2(96, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7fbw"]
+atlas = ExtResource("1_q34m6")
+region = Rect2(64, 192, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_45oe4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_of4t7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvk0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrwpo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8wlx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7fbw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="explosion" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("2_ls4hd")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_paw8o")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_45oe4")
+autoplay = "default"

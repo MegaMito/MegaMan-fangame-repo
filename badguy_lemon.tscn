@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://uibdvgy7n5hy"]
+
+[ext_resource type="Script" path="res://badguy_lemon.gd" id="1_r3ga8"]
+[ext_resource type="Texture2D" uid="uid://bnsrkspxjcgnt" path="res://lemon.png" id="1_yrsp8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ltpmr"]
+size = Vector2(10, 6)
+
+[node name="badguy_lemon" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_r3ga8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_yrsp8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ltpmr")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ltpmr")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

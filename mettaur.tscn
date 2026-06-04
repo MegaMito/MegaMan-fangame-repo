@@ -1,0 +1,147 @@
+[gd_scene load_steps=12 format=3 uid="uid://dov1bta6x8fr6"]
+
+[ext_resource type="Texture2D" uid="uid://drcgtvma8fevi" path="res://enemy_spritesheet.png" id="1_m7rch"]
+[ext_resource type="Script" path="res://mettaur.gd" id="1_y6230"]
+
+[sub_resource type="Animation" id="Animation_4jaiy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_02iqo"]
+resource_name = "mettaur_crouch"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_eo8wv"]
+resource_name = "mettaur_idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_r2l51"]
+resource_name = "mettaur_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_lxb5s"]
+resource_name = "mettaur_walk"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7eglv"]
+_data = {
+"RESET": SubResource("Animation_4jaiy"),
+"mettaur_crouch": SubResource("Animation_02iqo"),
+"mettaur_idle": SubResource("Animation_eo8wv"),
+"mettaur_peek": SubResource("Animation_r2l51"),
+"mettaur_walk": SubResource("Animation_lxb5s")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5p5d"]
+size = Vector2(4, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lgvo0"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8t8aq"]
+
+[node name="mettaur" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_y6230")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_m7rch")
+hframes = 8
+vframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_7eglv")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15.5)
+shape = SubResource("RectangleShape2D_q5p5d")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_lgvo0")
+
+[node name="helmet" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="helmet"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_8t8aq")
+
+[node name="RayCast_Left" type="RayCast2D" parent="."]
+position = Vector2(0, 8)
+target_position = Vector2(-128, 0)
+
+[node name="RayCast_Right" type="RayCast2D" parent="."]
+position = Vector2(0, 8)
+target_position = Vector2(128, 0)
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]

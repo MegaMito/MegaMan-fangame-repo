@@ -1,0 +1,378 @@
+[gd_scene load_steps=24 format=3 uid="uid://drgcs0vkwxe8t"]
+
+[ext_resource type="Script" path="res://megaman.gd" id="1_wvrby"]
+[ext_resource type="Texture2D" uid="uid://dak44qkignq2m" path="res://megaman_spritesheet.png" id="2_dvl3m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2c7p"]
+size = Vector2(14, 31)
+
+[sub_resource type="Animation" id="Animation_4vilq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_frlf8"]
+resource_name = "climb"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [14, 15]
+}
+
+[sub_resource type="Animation" id="Animation_kdhj3"]
+resource_name = "climb_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_kysoy"]
+resource_name = "climb_up"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_oe0hd"]
+resource_name = "damaged"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [22, 21]
+}
+
+[sub_resource type="Animation" id="Animation_y4s76"]
+resource_name = "idle"
+length = 8.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 7.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_r6l0r"]
+resource_name = "idle_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
+[sub_resource type="Animation" id="Animation_i000c"]
+resource_name = "run"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_uas5t"]
+resource_name = "jump_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [13]
+}
+
+[sub_resource type="Animation" id="Animation_oakwe"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 5]
+}
+
+[sub_resource type="Animation" id="Animation_tr4ys"]
+resource_name = "run_shoot"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 8]
+}
+
+[sub_resource type="Animation" id="Animation_b2q22"]
+resource_name = "slide"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_tnfeo"]
+resource_name = "slide_shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="Animation" id="Animation_8wawo"]
+resource_name = "teleport_in"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [18]
+}
+
+[sub_resource type="Animation" id="Animation_vtf4x"]
+resource_name = "teleport_ground"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [19, 20, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vc0ll"]
+_data = {
+"RESET": SubResource("Animation_4vilq"),
+"climb": SubResource("Animation_frlf8"),
+"climb_shoot": SubResource("Animation_kdhj3"),
+"climb_up": SubResource("Animation_kysoy"),
+"damaged": SubResource("Animation_oe0hd"),
+"idle": SubResource("Animation_y4s76"),
+"idle_shoot": SubResource("Animation_r6l0r"),
+"jump": SubResource("Animation_i000c"),
+"jump_shoot": SubResource("Animation_uas5t"),
+"run": SubResource("Animation_oakwe"),
+"run_shoot": SubResource("Animation_tr4ys"),
+"slide": SubResource("Animation_b2q22"),
+"slide_shoot": SubResource("Animation_tnfeo"),
+"teleport_air": SubResource("Animation_8wawo"),
+"teleport_ground": SubResource("Animation_vtf4x")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcf4p"]
+size = Vector2(2, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3s1k"]
+size = Vector2(4, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8q6p"]
+size = Vector2(2, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yuytp"]
+size = Vector2(14, 31)
+
+[node name="Megaman" type="CharacterBody2D"]
+z_index = 1
+collision_mask = 2
+script = ExtResource("1_wvrby")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_x2c7p")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+z_index = 2
+zoom = Vector2(2, 2)
+
+[node name="Energy_1" type="Sprite2D" parent="Camera2D"]
+z_index = 2
+texture_filter = 1
+position = Vector2(-270, -143)
+texture = ExtResource("2_dvl3m")
+hframes = 8
+vframes = 8
+frame = 63
+
+[node name="Energy_2" type="Sprite2D" parent="Camera2D/Energy_1"]
+position = Vector2(0, 32)
+texture = ExtResource("2_dvl3m")
+hframes = 8
+vframes = 8
+frame = 63
+
+[node name="Energy_3" type="Sprite2D" parent="Camera2D/Energy_1"]
+position = Vector2(0, 64)
+texture = ExtResource("2_dvl3m")
+hframes = 8
+vframes = 8
+frame = 63
+
+[node name="Energy_4" type="Sprite2D" parent="Camera2D/Energy_1"]
+position = Vector2(0, 96)
+texture = ExtResource("2_dvl3m")
+hframes = 8
+vframes = 8
+frame = 63
+
+[node name="Node2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_dvl3m")
+hframes = 8
+vframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+libraries = {
+"": SubResource("AnimationLibrary_vc0ll")
+}
+
+[node name="LadderChecker" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderChecker"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_dcf4p")
+
+[node name="DownLadderChecker" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DownLadderChecker"]
+position = Vector2(0, 18)
+shape = SubResource("RectangleShape2D_r3s1k")
+
+[node name="UpLadderChecker" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpLadderChecker"]
+shape = SubResource("RectangleShape2D_w8q6p")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_yuytp")
+
+[connection signal="body_entered" from="LadderChecker" to="." method="_on_ladder_checker_body_entered"]
+[connection signal="body_exited" from="LadderChecker" to="." method="_on_ladder_checker_body_exited"]
+[connection signal="body_entered" from="DownLadderChecker" to="." method="_on_down_ladder_checker_body_entered"]
+[connection signal="body_exited" from="DownLadderChecker" to="." method="_on_down_ladder_checker_body_exited"]
+[connection signal="body_entered" from="UpLadderChecker" to="." method="_on_up_ladder_checker_body_entered"]
+[connection signal="body_exited" from="UpLadderChecker" to="." method="_on_up_ladder_checker_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
