@@ -32,6 +32,9 @@ var on_enemy := false
 var spawned := false
 var spawn_timer = 2
 
+var desired_x_pos: float
+var x_pos_tween: Tween
+
 func _input(event):
 	if event.is_action_released("jump"):
 		if velocity.y < 0.0:
@@ -153,8 +156,16 @@ func _physics_process(delta: float) -> void:
 		speed_modifier = speed_modifier_max
 	
 	# CLIMB
+	_ladder_detect()
+	_down_ladder_detect()
 	if on_ladder and ladder_timer <= 0.1 and (Input.is_action_pressed("up") or Input.is_action_pressed("down") and !is_on_floor()):
 		climbing = true
+		
+		desired_x_pos = $LadderChecker.get_collider().get_child($LadderChecker.get_collider_shape()).global_position.x
+		if global_position.x != desired_x_pos:
+			x_pos_tween = create_tween().set_trans(Tween.TRANS_SINE)
+			x_pos_tween.tween_property(self, "global_position:x", desired_x_pos, 0)
+		
 	if Input.is_action_pressed("down") and is_on_floor() and on_ladder and climbing:
 		climbing = false
 	if Input.is_action_just_pressed("jump") and climbing:
@@ -189,7 +200,7 @@ func _physics_process(delta: float) -> void:
 			$Node2D/AnimationPlayer.stop()
 	if climb_down:
 		if Input.is_action_just_pressed("down") and is_on_floor():
-			position.y += 16
+			position.y += 32
 		
 	if Input.is_action_just_pressed("test"):
 		dead()
@@ -230,15 +241,10 @@ func dead():
 	instance.spawnPos = global_position
 	add_child(instance)
 
-func _on_ladder_checker_body_entered(_body: Node2D) -> void:
-	on_ladder = true
-func _on_ladder_checker_body_exited(body: Node2D) -> void:
-	on_ladder = false
-
-func _on_down_ladder_checker_body_entered(body: Node2D) -> void:
-	climb_down = true
-func _on_down_ladder_checker_body_exited(body: Node2D) -> void:
-	climb_down = false
+#func _on_down_ladder_checker_body_entered(body: Node2D) -> void:
+#	climb_down = true
+#func _on_down_ladder_checker_body_exited(body: Node2D) -> void:
+#	climb_down = false
 
 func _on_up_ladder_checker_body_entered(body: Node2D) -> void:
 	climb_up = false
@@ -249,3 +255,20 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	on_enemy = true
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	on_enemy = false
+
+func _ladder_detect():
+	if $LadderChecker.is_colliding():
+		on_ladder = true
+		
+		#if is_on_floor():
+		#	climb_down = true
+		#else:
+		#	climb_down = false
+	else:
+		on_ladder = false
+
+func _down_ladder_detect():
+	if $DownLadderChecker.is_colliding():
+		climb_down = true
+	else:
+		climb_down = false

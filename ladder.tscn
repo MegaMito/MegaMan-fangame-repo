@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5r4vp854lfl"]
+
+[ext_resource type="Texture2D" uid="uid://blmfr225w6upg" path="res://tile_spritesheet.png" id="1_ot7ou"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2reh"]
+size = Vector2(32, 32)
+
+[node name="Ladder" type="Area2D"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_b2reh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ot7ou")
+region_enabled = true
+region_rect = Rect2(32, 0, 32, 32)

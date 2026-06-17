@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://drgcs0vkwxe8t"]
+[gd_scene load_steps=22 format=3 uid="uid://drgcs0vkwxe8t"]
 
 [ext_resource type="Script" path="res://megaman.gd" id="1_wvrby"]
 [ext_resource type="Texture2D" uid="uid://dak44qkignq2m" path="res://megaman_spritesheet.png" id="2_dvl3m"]
@@ -272,12 +272,6 @@ _data = {
 "teleport_ground": SubResource("Animation_vtf4x")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcf4p"]
-size = Vector2(2, 28)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3s1k"]
-size = Vector2(4, 2)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w8q6p"]
 size = Vector2(2, 0)
 
@@ -338,21 +332,19 @@ libraries = {
 "": SubResource("AnimationLibrary_vc0ll")
 }
 
-[node name="LadderChecker" type="Area2D" parent="."]
-collision_layer = 0
+[node name="LadderChecker" type="RayCast2D" parent="."]
+position = Vector2(0, -15)
+target_position = Vector2(0, 31)
 collision_mask = 4
+hit_from_inside = true
+collide_with_areas = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderChecker"]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_dcf4p")
-
-[node name="DownLadderChecker" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DownLadderChecker"]
+[node name="DownLadderChecker" type="RayCast2D" parent="."]
 position = Vector2(0, 18)
-shape = SubResource("RectangleShape2D_r3s1k")
+target_position = Vector2(0, 8)
+collision_mask = 4
+hit_from_inside = true
+collide_with_areas = true
 
 [node name="UpLadderChecker" type="Area2D" parent="."]
 collision_layer = 0
@@ -368,10 +360,6 @@ collision_mask = 16
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_yuytp")
 
-[connection signal="body_entered" from="LadderChecker" to="." method="_on_ladder_checker_body_entered"]
-[connection signal="body_exited" from="LadderChecker" to="." method="_on_ladder_checker_body_exited"]
-[connection signal="body_entered" from="DownLadderChecker" to="." method="_on_down_ladder_checker_body_entered"]
-[connection signal="body_exited" from="DownLadderChecker" to="." method="_on_down_ladder_checker_body_exited"]
 [connection signal="body_entered" from="UpLadderChecker" to="." method="_on_up_ladder_checker_body_entered"]
 [connection signal="body_exited" from="UpLadderChecker" to="." method="_on_up_ladder_checker_body_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
