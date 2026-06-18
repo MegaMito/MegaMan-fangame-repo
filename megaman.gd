@@ -185,12 +185,20 @@ func _physics_process(delta: float) -> void:
 		elif Input.is_action_pressed("down"):
 			$Node2D/AnimationPlayer.play("climb")
 			velocity.y = 100
-		elif Input.is_action_pressed("shoot") and shooting:
-			velocity.y = 0
+		elif Input.is_action_pressed("shoot"):
 			if Input.is_action_pressed("right"):
 				$Node2D.flip_h = false
 			if Input.is_action_pressed("left"):
 				$Node2D.flip_h = true
+			if Input.is_action_pressed("up"):
+				velocity.y = -100
+			else:
+				velocity.y = 0
+			
+			if Input.is_action_pressed("down"):
+				velocity.y = 100
+			else:
+				velocity.y = 0
 			$Node2D/AnimationPlayer.play("climb_shoot")
 		elif !shooting:
 			velocity.y = 0
@@ -241,14 +249,9 @@ func dead():
 	instance.spawnPos = global_position
 	add_child(instance)
 
-#func _on_down_ladder_checker_body_entered(body: Node2D) -> void:
-#	climb_down = true
-#func _on_down_ladder_checker_body_exited(body: Node2D) -> void:
-#	climb_down = false
-
-func _on_up_ladder_checker_body_entered(body: Node2D) -> void:
+func _on_up_ladder_checker_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	climb_up = false
-func _on_up_ladder_checker_body_exited(body: Node2D) -> void:
+func _on_up_ladder_checker_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	climb_up = true
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
