@@ -177,15 +177,15 @@ func _physics_process(delta: float) -> void:
 		ladder_timer -= 0.1
 	
 	if on_ladder and climbing:
-		if Input.is_action_pressed("up"):
+		if Input.is_action_pressed("up") and !damaged:
 			if climb_up: $Node2D/AnimationPlayer.play("climb_up")
 			else:
 				$Node2D/AnimationPlayer.play("climb")
 			velocity.y = -100
-		elif Input.is_action_pressed("down"):
+		elif Input.is_action_pressed("down") and !damaged:
 			$Node2D/AnimationPlayer.play("climb")
 			velocity.y = 100
-		elif Input.is_action_pressed("shoot"):
+		elif Input.is_action_pressed("shoot") and !damaged:
 			if Input.is_action_pressed("right"):
 				$Node2D.flip_h = false
 			if Input.is_action_pressed("left"):
@@ -200,7 +200,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				velocity.y = 0
 			$Node2D/AnimationPlayer.play("climb_shoot")
-		elif !shooting:
+		elif !shooting and !damaged:
 			velocity.y = 0
 			if climb_up: $Node2D/AnimationPlayer.play("climb_up")
 			else:
