@@ -53,6 +53,19 @@ func _physics_process(delta: float) -> void:
 	#print("damaged_timer: ", damage_timer)
 	#print("invincible_timer: ", invincible_timer)
 	
+	if !spawned:
+		_spawn()
+	
+	move_and_slide()
+	_damaged()
+	_movement()
+	_ladder_movement()
+
+	if Input.is_action_just_pressed("test"):
+		dead()
+	
+func _spawn():
+	#ENTRY ANIMATION
 	if !spawned and !is_on_floor():
 		$Node2D/AnimationPlayer.play("teleport_air")
 	else: if !spawned and is_on_floor():
@@ -61,44 +74,8 @@ func _physics_process(delta: float) -> void:
 		
 	if spawn_timer <= 0:
 		spawned = true
-	
-	#DAMAGED
-	if on_enemy:
-		damaged = true
-	
-	if damaged and !invincible:
-		$Node2D/AnimationPlayer.play("damaged")
-		if $Node2D.flip_h == false: velocity.x = -200
-		else: velocity.x = 200
-		climbing = false
-		damage_timer -= 0.1
-	
-	if damage_timer == 2.9:
-		hit()
-	
-	if damage_timer <= 0 and !invincible:
-		#damaged = false
-		invincible = true
-		damage_timer = damage_timer_max
-	
-	if invincible:
-		invincible_timer -= 0.1
-		damaged = false
-	
-	if invincible_timer <= 0:
-		invincible = false
-		invincible_timer = invincible_timer_max
-	
-	#SHOOTING
-	if Input.is_action_just_pressed("shoot") and !damaged and spawned: 
-		shooting = true
-		shoot()
-	if shoot_timer <= shoot_timer_max and shoot_timer > 0:
-		shoot_timer -= 0.1
-	if shoot_timer <= 0: 
-		shoot_timer = shoot_timer_max
-		shooting = false
-	
+
+func _movement():
 	# GRAVITY
 	if not is_on_floor() and !climbing:
 		velocity += get_gravity() * 0.05
@@ -155,6 +132,17 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_released("slide"):
 		speed_modifier = speed_modifier_max
 	
+	#SHOOTING
+	if Input.is_action_just_pressed("shoot") and !damaged and spawned: 
+		shooting = true
+		_shoot()
+	if shoot_timer <= shoot_timer_max and shoot_timer > 0:
+		shoot_timer -= 0.1
+	if shoot_timer <= 0: 
+		shoot_timer = shoot_timer_max
+		shooting = false
+
+func _ladder_movement():
 	# CLIMB
 	_ladder_detect()
 	_down_ladder_detect()
@@ -209,12 +197,8 @@ func _physics_process(delta: float) -> void:
 	if climb_down:
 		if Input.is_action_just_pressed("down") and is_on_floor():
 			position.y += 32
-		
-	if Input.is_action_just_pressed("test"):
-		dead()
-	move_and_slide()
 
-func shoot():
+func _shoot():
 	var instance = projectile.instantiate()
 	if $Node2D.flip_h == false:
 		instance.dir = rotation
@@ -227,7 +211,7 @@ func shoot():
 	instance.zdex = z_index -1
 	main.add_child.call_deferred(instance)
 
-func hit(): #order matters here
+func _hit(): #order matters here
 	if $Camera2D/Energy_1/Energy_4.frame == 55:
 		dead()
 	
@@ -242,6 +226,34 @@ func hit(): #order matters here
 		
 	if $Camera2D/Energy_1.frame >= 56:
 		$Camera2D/Energy_1.frame -= 8
+
+func _damaged():
+	#DAMAGED
+	if on_enemy:
+		damaged = true
+	
+	if damaged and !invincible:
+		$Node2D/AnimationPlayer.play("damaged")
+		if $Node2D.flip_h == false: velocity.x = -200
+		else: velocity.x = 200
+		climbing = false
+		damage_timer -= 0.1
+	
+	if damage_timer == 2.9:
+		_hit()
+	
+	if damage_timer <= 0 and !invincible:
+		#damaged = false
+		invincible = true
+		damage_timer = damage_timer_max
+	
+	if invincible:
+		invincible_timer -= 0.1
+		damaged = false
+	
+	if invincible_timer <= 0:
+		invincible = false
+		invincible_timer = invincible_timer_max
 
 func dead():
 	var instance = explosion.instantiate()
