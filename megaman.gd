@@ -28,6 +28,7 @@ var damage_timer_max = 3
 var invincible_timer = 6
 var invincible_timer_max = 6
 var on_enemy := false
+var jumped := false
 
 var spawned := false
 var spawn_timer = 2
@@ -89,10 +90,15 @@ func _movement():
 		coyote_timer -= 1
 	if is_on_floor():
 		coyote_timer = coyote_timer_max
-	# JUMP
-	if Input.is_action_just_pressed("jump") and (is_on_floor() or coyote_timer > 0 or climbing) and !damaged:
-		velocity.y = JUMP_VELOCITY
+		jumped = false
 	
+	# JUMP
+	if(jumped == false):
+		if Input.is_action_just_pressed("jump") and (is_on_floor() or coyote_timer > 0 or climbing) and !damaged:
+			velocity.y = JUMP_VELOCITY
+	if Input.is_action_just_pressed("jump"):
+		jumped = true
+		
 	# MOVING RIGHT
 	if Input.is_action_pressed("right") and !climbing and !damaged and spawned:
 		velocity.x = SPEED
