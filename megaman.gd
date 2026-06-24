@@ -29,6 +29,7 @@ var invincible_timer = 6
 var invincible_timer_max = 6
 var on_enemy := false
 var jumped := false
+var sliding := false
 
 var spawned := false
 var spawn_timer = 2
@@ -56,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	
 	if !spawned:
 		_spawn()
-	
+		
 	move_and_slide()
 	_damaged()
 	_movement()
@@ -96,6 +97,7 @@ func _movement():
 	if(jumped == false):
 		if Input.is_action_just_pressed("jump") and (is_on_floor() or coyote_timer > 0 or climbing) and !damaged:
 			velocity.y = JUMP_VELOCITY
+			
 	if Input.is_action_just_pressed("jump"):
 		jumped = true
 		
@@ -125,7 +127,11 @@ func _movement():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
 	# SLIDE
-	if Input.is_action_pressed("slide") and speed_modifier > 1 and !on_ladder and !climb_down and !damaged and spawned:
+	if Input.is_action_just_pressed("slide"):
+		sliding = true
+		
+	#if sliding and speed_modifier > 1 and !on_ladder and !climb_down and !damaged and spawned:
+	if sliding and speed_modifier > 1 and !on_ladder and !damaged and spawned:
 		# SLIDE ANIMATION
 		if shooting: $Node2D/AnimationPlayer.play("slide_shoot")
 		else: $Node2D/AnimationPlayer.play("slide")
@@ -135,8 +141,9 @@ func _movement():
 		# slows down slide speed over time
 		if speed_modifier > 1: speed_modifier -= 0.1
 	# SLIDE RESET
-	if Input.is_action_just_released("slide"):
+	if speed_modifier <= 1 or climbing:
 		speed_modifier = speed_modifier_max
+		sliding = false
 	
 	#SHOOTING
 	if Input.is_action_just_pressed("shoot") and !damaged and spawned: 
@@ -163,6 +170,7 @@ func _ladder_movement():
 	if Input.is_action_pressed("down") and is_on_floor() and on_ladder and climbing:
 		climbing = false
 	if Input.is_action_just_pressed("jump") and climbing:
+		velocity.y = JUMP_VELOCITY
 		climbing = false
 		ladder_timer = ladder_timer_max
 	if !on_ladder and climbing:
