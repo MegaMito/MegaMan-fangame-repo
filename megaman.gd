@@ -182,35 +182,30 @@ func _ladder_movement():
 		ladder_timer -= 0.1
 	
 	if on_ladder and climbing:
+		
+		if Input.is_action_pressed("right"):
+				$Node2D.flip_h = false
+		if Input.is_action_pressed("left"):
+			$Node2D.flip_h = true
+		
 		if Input.is_action_pressed("up") and !damaged:
 			if climb_up: $Node2D/AnimationPlayer.play("climb_up")
-			else:
-				$Node2D/AnimationPlayer.play("climb")
+			elif Input.is_action_pressed("shoot") and !damaged: $Node2D/AnimationPlayer.play("climb_shoot")
+			else: $Node2D/AnimationPlayer.play("climb")
 			velocity.y = -100
-		elif Input.is_action_pressed("down") and !damaged:
-			$Node2D/AnimationPlayer.play("climb")
-			velocity.y = 100
-		elif Input.is_action_pressed("shoot") and !damaged:
-			if Input.is_action_pressed("right"):
-				$Node2D.flip_h = false
-			if Input.is_action_pressed("left"):
-				$Node2D.flip_h = true
-			if Input.is_action_pressed("up"):
-				velocity.y = -100
-			else:
-				velocity.y = 0
 			
-			if Input.is_action_pressed("down"):
-				velocity.y = 100
-			else:
-				velocity.y = 0
+		elif Input.is_action_pressed("down") and !damaged:
+			if Input.is_action_pressed("shoot") and !damaged: $Node2D/AnimationPlayer.play("climb_shoot")
+			else: $Node2D/AnimationPlayer.play("climb")
+			velocity.y = 100
+			
+		elif Input.is_action_pressed("shoot") and !damaged:
 			$Node2D/AnimationPlayer.play("climb_shoot")
-		elif !shooting and !damaged:
+			
+		else:
 			velocity.y = 0
-			if climb_up: $Node2D/AnimationPlayer.play("climb_up")
-			else:
-				$Node2D/AnimationPlayer.play("climb")
 			$Node2D/AnimationPlayer.stop()
+			
 	if climb_down:
 		if Input.is_action_just_pressed("down") and is_on_floor():
 			position.y += 32
