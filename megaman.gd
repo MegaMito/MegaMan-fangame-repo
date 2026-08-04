@@ -30,6 +30,7 @@ var invincible_timer_max = 6
 var on_enemy := false
 var jumped := false
 var sliding := false
+var isdead := false
 
 var spawned := false
 var spawn_timer = 2
@@ -60,10 +61,12 @@ func _physics_process(delta: float) -> void:
 	
 	if !spawned:
 		_spawn()
-	else:
+	elif !isdead:
 		_damaged()
 		_movement()
 		_ladder_movement()
+	else:
+		pass
 
 	if Input.is_action_just_pressed("test"):
 		dead()
@@ -269,9 +272,15 @@ func _damaged():
 
 func dead():
 	var instance = explosion.instantiate()
+	isdead = true
+	velocity.y = 0
+	velocity.x = 0
+	$Node2D.visible = false
 	
 	instance.spawnPos = global_position
 	add_child(instance)
+	
+	
 
 func _on_up_ladder_checker_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	climb_up = false
