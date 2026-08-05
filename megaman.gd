@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var main = get_tree().get_root().get_node("main")
 @onready var projectile = load("res://lemon.tscn")
-@onready var explosion = load("res://explosion.tscn")
+@onready var player_death_explosion = load("res://player_death_explosion.tscn")
 
 const SPEED = 150.0
 const JUMP_VELOCITY = -600.0
@@ -271,14 +271,15 @@ func _damaged():
 		invincible_timer = invincible_timer_max
 
 func dead():
-	var instance = explosion.instantiate()
+	var instance = player_death_explosion.instantiate()
 	isdead = true
 	velocity.y = 0
 	velocity.x = 0
 	$Node2D.visible = false
 	
-	instance.spawnPos = global_position
+	#instance.spawnPos = global_position
 	add_child(instance)
+	
 	
 	
 

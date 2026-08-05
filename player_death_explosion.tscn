@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://xh1i30u3176u"]
+
+[ext_resource type="Texture2D" uid="uid://tmlxum1748l1" path="res://explosion1.png" id="1_1xkwg"]
+[ext_resource type="Texture2D" uid="uid://bhh1exj27d84d" path="res://explosion2.png" id="2_d2v0r"]
+[ext_resource type="Texture2D" uid="uid://btn7gd4xg318n" path="res://explosion3.png" id="3_jjnbj"]
+[ext_resource type="Texture2D" uid="uid://bgk6m4vrre4gk" path="res://explosion4.png" id="4_e5chq"]
+[ext_resource type="Texture2D" uid="uid://b353fe8jcbwr2" path="res://explosion5.png" id="5_uecop"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_jhbks"]
+frames = 5
+speed_scale = 6.0
+frame_0/texture = ExtResource("1_1xkwg")
+frame_1/texture = ExtResource("2_d2v0r")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_jjnbj")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("4_e5chq")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("5_uecop")
+frame_4/duration = 1.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=1615859439]
+texture_filter = 1
+texture = SubResource("AnimatedTexture_jhbks")
+lifetime = 5.0
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
