@@ -271,15 +271,19 @@ func _damaged():
 		invincible_timer = invincible_timer_max
 
 func dead():
-	var instance = player_death_explosion.instantiate()
+	
 	isdead = true
 	velocity.y = 0
 	velocity.x = 0
 	$Node2D.visible = false
 	
 	#instance.spawnPos = global_position
-	add_child(instance)
-	
+	for i in range(4):
+		var instance = player_death_explosion.instantiate()
+		add_child(instance)
+		instance.rotation = i*45
+		print(i)
+		print(instance.rotation)
 	
 	
 

@@ -21,11 +21,10 @@ frame_4/duration = 1.0
 
 [node name="CPUParticles2D" type="CPUParticles2D" unique_id=1615859439]
 texture_filter = 1
+amount = 1
 texture = SubResource("AnimatedTexture_jhbks")
-lifetime = 5.0
-explosiveness = 1.0
 direction = Vector2(0, 0)
-spread = 180.0
+spread = 0.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 50.0
 initial_velocity_max = 50.0
