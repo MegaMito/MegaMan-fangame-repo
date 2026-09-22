@@ -278,12 +278,10 @@ func dead():
 	$Node2D.visible = false
 	
 	#instance.spawnPos = global_position
-	for i in range(4):
+	for i in range(8):
 		var instance = player_death_explosion.instantiate()
 		add_child(instance)
-		instance.rotation = i*45
-		print(i)
-		print(instance.rotation)
+		instance.rotation += i*(3.14/4)
 	
 	
 
